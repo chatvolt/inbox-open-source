@@ -5,6 +5,8 @@ import { fastifySwagger } from '@fastify/swagger';
 import 'dotenv/config'
 import { assignConversationRoute, getConversationsRoute } from './controllers/ConversationController';
 import { validatorCompiler, serializerCompiler, type ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod'
+import { agentWebhookRoute } from './controllers/AgentController'; 
+
 
 const server = Fastify();
 
@@ -30,4 +32,6 @@ server.setSerializerCompiler(serializerCompiler)
 
 server.register(getConversationsRoute);
 server.register(assignConversationRoute);
+server.register(agentWebhookRoute);
+
 export const app = server;
