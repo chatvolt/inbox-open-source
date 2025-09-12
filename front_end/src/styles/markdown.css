@@ -1,0 +1,80 @@
+/* Estilos básicos para markdown */
+.prose {
+  color: inherit;
+  max-width: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.prose > * {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.prose > *:last-child {
+  margin-bottom: 0;
+}
+
+.prose > *:first-child {
+  margin-top: 0;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: inherit;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h1:first-child, .prose h2:first-child, .prose h3:first-child {
+  margin-top: 0;
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.prose li {
+  margin: 0.25rem 0;
+}
+
+.prose p {
+  margin: 0.5rem 0;
+}
+
+.prose p:first-child {
+  margin-top: 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.prose em {
+  font-style: italic;
+  color: inherit;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+
+.prose th, .prose td {
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.prose th {
+  background-color: hsl(var(--muted));
+  font-weight: 600;
+}

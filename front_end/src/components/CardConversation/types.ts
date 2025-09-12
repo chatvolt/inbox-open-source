@@ -16,8 +16,9 @@ export interface Conversation {
     "userId": string,
     "visitorId": string,
     "frustration": number,
-    "createdAt": Date,
-    "updatedAt": Date,
+    "unreadMessagesCount": number,
+    "createdAt": string,
+    "updatedAt": string,
     "participantsContacts": [
         {
             "firstName": string
@@ -33,7 +34,85 @@ export interface Conversation {
     "conversationContexts": [
         {
             "context": string,
-            "updatedAt": Date
+            "updatedAt": string
         }
     ]
+}
+
+export interface MessageSource {
+    "text": string,
+    "score": number,
+    "source": string,
+    "datasource_id": string,
+    "datasource_name": string,
+    "custom_id": string,
+    "tags": string[]
+}
+
+export interface Message {
+    "id": string,
+    "text": string,
+    "html": string,
+    "from": "human" | "assistant" | "system",
+    "conversationId": string,
+    "sources": MessageSource[],
+    "usage": any,
+    "externalId": string,
+    "userId": string,
+    "contactId": string,
+    "visitorId": string,
+    "agentId": string,
+    "metadata": any,
+    "inputId": string,
+    "eval": "good" | "bad" | "neutral",
+    "read": boolean,
+    "agentModel": string,
+    "usageCredits": number,
+    "createdAt": string,
+    "updatedAt": string
+}
+
+export interface ConversationMessagesResponse {
+    "status": string,
+    "isAiEnabled": boolean,
+    "userId": string,
+    "organizationId": string,
+    "messages": Message[]
+}
+
+export interface SendMessageRequest {
+    "message": string,
+    "from": "human" | "assistant" | "system"
+}
+
+export interface SendMessageResponse {
+    "success": boolean,
+    "message": Message
+}
+
+export interface SetPriorityRequest {
+    "priority": "LOW" | "MEDIUM" | "HIGH"
+}
+
+export interface SetPriorityResponse {
+    "success": boolean,
+    "conversation": Conversation
+}
+
+export interface SetAiEnabledRequest {
+    "enabled": boolean
+}
+
+export interface SetAiEnabledResponse {
+    "success": boolean,
+    "message": string
+}
+
+export interface SetStatusRequest {
+    "status": "RESOLVED" | "UNRESOLVED" | "HUMAN_REQUESTED"
+}
+
+export interface SetStatusResponse {
+    "success": boolean,
+    "message": string
 }

@@ -1,11 +1,9 @@
 import { MessagesSquare, Send } from "lucide-react";
 import { Conversation } from "./types";
-import { useStore } from "@/store/agentStore";
 
 function CardConversation(props: {
   value: Conversation;
 }) {
-  const store = useStore();
   const userIdentifier = ()=>{
     if(props.value.channel === 'dashboard'){
       return props.value.aiUserIdentifier ? props.value.aiUserIdentifier : `VISITOR #${props.value.id.substring(props.value.id.length - 3, props.value.id.length).toUpperCase()}`;
@@ -21,7 +19,6 @@ function CardConversation(props: {
         <div className="flex justify-between items-center">
           <span className="text- font-semibold mb-2">{userIdentifier()}</span> <button className="w-20 h-20 rounded-xl "></button>
         </div>
-        <h2 className="text-lg font-semibold mb-2">{store}</h2>
         <p className="text-sm text-text-900">Status: {props.value.status}</p>
         <p className="text-sm text-text-900">Priority: {props.value.priority}</p>
         <p className="text-sm text-text-900">Created At: {new Date(props.value.createdAt).toLocaleString()}</p>
