@@ -1,31 +1,39 @@
-import React from "react";
+import React, { useCallback } from "react";
 
-const useQuery = <T>(key: string, url: string, options?: RequestInit): readonly [T | undefined, Error | null, boolean] => {
+const useQuery = <T>(key: string, url: string, options?: RequestInit): readonly [T | undefined, Error | null, boolean, () => void] => {
   const [data, setData] = React.useState<T>();
   const [error, setError] = React.useState<Error | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          throw new Error(`Error fetching data: ${response.statusText}`);
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setLoading(false);
+  // ALTERADO: useCallback para memorizar a função e evitar re-renderizações desnecessárias
+  const fetchData = useCallback(async () => {
+    if (!url) {
+      setData(undefined);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(url, { ...options, cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
       }
-    };
+      const result = await response.json();
+      setData(result);
+      setError(null); // Limpa erros anteriores em caso de sucesso
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  }, [url, JSON.stringify(options)]); // Dependências da função
 
+  React.useEffect(() => {
     fetchData();
-  }, [key, url, JSON.stringify(options)]); // Stringify options to prevent infinite re-renders
+  }, [key, fetchData]); // A busca é refeita se a 'key' ou a própria função 'fetchData' mudar
 
-  return [data, error, loading] as const;
+  // ALTERADO: Retorna a função fetchData para que possa ser chamada externamente
+  return [data, error, loading, fetchData] as const;
 };
 
 export default useQuery;
